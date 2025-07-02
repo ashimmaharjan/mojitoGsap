@@ -2,6 +2,8 @@ import { useGSAP } from "@gsap/react";
 import { navLinks } from "../../constants";
 import gsap from "gsap";
 
+import { LiaCocktailSolid } from "react-icons/lia";
+
 const Navbar = () => {
   useGSAP(() => {
     const navTween = gsap.timeline({
@@ -25,14 +27,16 @@ const Navbar = () => {
   return (
     <nav>
       <div>
-        <a href="#home" className="flex items-center gap-2">
-          <img src="/images/logo.png" alt="logo" />
+        <a href="#" className="flex items-center gap-2">
+          <LiaCocktailSolid className="size-9 text-yellow" />
           <p>Velvet Pour</p>
         </a>
 
         <ul>
           {navLinks.map((link, index) => (
-            <li key={index}>{link.title}</li>
+            <a href={`#${link.id}`} key={index}>
+              {link.title}
+            </a>
           ))}
         </ul>
       </div>

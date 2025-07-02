@@ -1,30 +1,61 @@
 "use client";
 
+import gsap from "gsap";
+
 import { useRef, useState } from "react";
 import { sliderLists } from "../../constants";
 import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
+import { SplitText } from "gsap/all";
 
 const Menu = () => {
   const contentRef = useRef();
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useGSAP(() => {
+    const cocktailTileSplit = new SplitText(".cocktailTitle", {
+      type: "words",
+    });
+
+    const cocktailDescSplit = new SplitText(".cocktailDesc", { type: "lines" });
+
+    cocktailTileSplit.words.forEach((word) =>
+      word.classList.add("text-gradient")
+    );
+
     gsap.fromTo("#title", { opacity: 0 }, { opacity: 1, duration: 1 });
     gsap.fromTo(
       ".cocktail img",
       { opacity: 0, xPercent: -100 },
       { opacity: 1, duration: 1, xPercent: 0, ease: "power1.inOut" }
     );
+
     gsap.fromTo(
-      ".details h2",
-      { yPercent: 100, opacity: 0 },
-      { yPercent: 0, opacity: 1, ease: "power1.inOut" }
+      cocktailTileSplit.words,
+      {
+        yPercent: 80,
+      },
+      {
+        yPercent: 0,
+        duration: 1.3,
+        ease: "expo.out",
+        stagger: 0.05,
+      }
     );
+
     gsap.fromTo(
-      ".details p",
-      { yPercent: 100, opacity: 0 },
-      { yPercent: 0, opacity: 1, ease: "power1.inOut" }
+      cocktailDescSplit.lines,
+      {
+        opacity: 0,
+        yPercent: 100,
+      },
+      {
+        opacity: 1,
+        yPercent: 0,
+        duration: 1.5,
+        ease: "expo.out",
+        stagger: 0.06,
+        delay: 0.5,
+      }
     );
   }, [currentIndex]);
 
@@ -119,8 +150,8 @@ const Menu = () => {
           </div>
 
           <div className="details">
-            <h2>{currentCocktail.title}</h2>
-            <p>{currentCocktail.description}</p>
+            <h2 className="cocktailTitle">{currentCocktail.title}</h2>
+            <p className="cocktailDesc">{currentCocktail.description}</p>
           </div>
         </div>
       </div>
